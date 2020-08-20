@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1031207220942",
+    "firebase_url": "https://reminder-app-8e790.firebaseio.com",
+    "project_id": "reminder-app-8e790",
+    "storage_bucket": "reminder-app-8e790.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031207220942:android:ca739f96aded4528a7429f",
+        "android_client_info": {
+          "package_name": "com.realmreactnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031207220942-4mf17vm3gqnq96bbnitn5qidi0veuth6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfSHBWU8EDk3wzKdkY20pGEyA9yc2lz1A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1031207220942-4mf17vm3gqnq96bbnitn5qidi0veuth6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
