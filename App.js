@@ -27,6 +27,7 @@ import ranstr from 'ranstr';
 import PushNotification from 'react-native-push-notification'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Animatable from 'react-native-animatable';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 class App extends Component {
 
@@ -62,13 +63,15 @@ class App extends Component {
 
       popInitialNotification: true,
       requestPermissions: true,
+      smallIcon: "ic_launcher",
 
     });
   }
 
-  addNotif(datas) {
-    PushNotification.localNotificationSchedule({      
-      // id: parseInt(datas.id),
+  addNotif(datas) {    
+    PushNotification.localNotificationSchedule({
+      messageId: datas.id,
+      smallIcon: "ic_launcher",
       title: datas.title,
       message: datas.description ? datas.description : datas.title,
       date: new Date(datas.date),
@@ -76,8 +79,8 @@ class App extends Component {
     });
   }
 
-  cancleNotif(id) {
-    PushNotification.cancelLocalNotifications({id: id});
+  cancleNotif(id) {    
+    PushNotification.cancelLocalNotifications({ messageId: id });
   }
 
   addTodo() {
@@ -219,81 +222,80 @@ class App extends Component {
         <StatusBar backgroundColor="#21277B" barStyle="light-content" />
         <SafeAreaView style={{ backgroundColor: 'white', minHeight: Dimensions.get('screen').height }}>
           <View style={{ backgroundColor: '#21277B', height: 125, width: Dimensions.get('screen').width, padding: 30, justifyContent: 'center' }}>
-              <Text style={{ color: 'white', fontSize: 24, fontFamily: 'Montserrat-Bold', marginTop: -20 }}>REMINDER APP</Text>
+              <Text style={{ color: 'white', fontSize: 24, fontFamily: 'Montserrat-Bold', marginTop: -20 }}>REMINDER APP</Text>              
           </View>
           
           <View style={styles.containerScrollView}>
-            <ScrollView
-              contentInsetAdjustmentBehavior="automatic"              
-              stickyHeaderIndices={[0]} 
-              showsVerticalScrollIndicator={false}>            
+            <ScrollView 
+            style={{ maxHeight: Dimensions.get('screen').height - 90 }}
+            showsVerticalScrollIndicator={true}>                          
 
-              <View style={{ backgroundColor: '#F0F0F0', height: 30, width: Dimensions.get('screen').width, borderTopLeftRadius: 30, borderTopRightRadius: 30, marginTop: 90 }}></View>
+              <View>
+                  <View style={{ backgroundColor: '#F0F0F0', width: Dimensions.get('screen').width, padding: 30, paddingTop: 20, zIndex: 10, paddingBottom: this.state.dueDates.length > 0 ? 50 : 0, marginTop: 90, borderTopLeftRadius: 30, borderTopRightRadius: 30 }}>
 
-              <View style={{ backgroundColor: '#F0F0F0', width: Dimensions.get('screen').width, padding: 30, paddingTop: 0, zIndex: 10, paddingBottom: this.state.dueDates.length > 0 ? 50 : 0 }}>
+                  {
+                    this.state.dueDates.length
+                    ? <Text style={{ color: 'black', fontSize: 18, fontFamily: 'Montserrat-Bold', marginHorizontal: 10 }}>Due Date</Text>
+                    : <View></View>
+                  }
 
-                {
-                  this.state.dueDates.length
-                  ? <Text style={{ color: 'black', fontSize: 18, fontFamily: 'Montserrat-Bold', marginHorizontal: 10 }}>Due Date</Text>
-                  : <View></View>
-                }
-
-                {
-                  this.state.dueDates.map((dt, i) => {
-                    return(
-                      <View key={i} style={{ backgroundColor: 'white', borderRadius: 15, minHeight: 80, marginTop: 10, paddingVertical: 10, paddingHorizontal: 15, flexDirection: 'row' }}>
-                        <View style={{ justifyContent: 'space-evenly', width: '90%' }}>
-                          <Text style={{ fontSize: 16, fontFamily: 'Montserrat-Bold', color: '#000000' }}>{ dt.title }</Text>
-                          {
-                            dt.description
-                            ? <Text style={{ fontSize: 14, marginBottom: 10, color: '#5c5c5c', fontFamily: 'Montserrat-Medium' }}>{ dt.description }</Text>
-                            : <View></View>                            
-                          }
-                          <Text style={{ color: '#9c9c9c', fontSize: 12, fontFamily: 'Montserrat-Medium', color: '#21277B' }}>{ this.dateToText(dt.reminderDate) }</Text>
+                  {
+                    this.state.dueDates.map((dt, i) => {
+                      return(
+                        <View key={i} style={{ backgroundColor: 'white', borderRadius: 15, minHeight: 80, marginTop: 10, paddingVertical: 10, paddingHorizontal: 15, flexDirection: 'row', justifyContent: 'space-between' }}>
+                          <View style={{ justifyContent: 'space-evenly', width: '85%' }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'Montserrat-Bold', color: '#000000' }}>{ dt.title }</Text>
+                            {
+                              dt.description
+                              ? <Text style={{ fontSize: 14, marginBottom: 10, color: '#5c5c5c', fontFamily: 'Montserrat-Medium' }}>{ dt.description }</Text>
+                              : <View></View>                            
+                            }
+                            <Text style={{ color: '#9c9c9c', fontSize: 12, fontFamily: 'Montserrat-Medium', color: '#21277B' }}>{ this.dateToText(dt.reminderDate) }</Text>
+                          </View>
+                          <View style={{ justifyContent: 'flex-end' }}>
+                            <TouchableOpacity 
+                              onPress={() => { this.deleteTodo(dt._id) }}
+                              style={{ padding: 15, marginLeft: -10 }}>
+                              <Icon name="trash" size={20} color="#FC210D" />
+                            </TouchableOpacity>
+                          </View>
                         </View>
-                        <View style={{ justifyContent: 'flex-start' }}>
-                          <TouchableOpacity 
-                            onPress={() => { this.deleteTodo(dt._id) }}
-                            style={{ height: 30, width: 30, backgroundColor: 'red', borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: 'white', fontSize: 18, fontFamily: 'Montserrat-Bold' }}>X</Text>
-                          </TouchableOpacity>
+                      )
+                    })
+                  }
+
+                  </View>
+
+                  <View style={{ backgroundColor: 'white', borderTopLeftRadius: 30, borderTopRightRadius: 30, width: Dimensions.get('screen').width, marginTop: -30, zIndex: 20, padding: 30, paddingBottom: 100 }}>
+
+                  <Text style={{ color: 'black', fontSize: 18, fontFamily: 'Montserrat-Bold', marginHorizontal: 10 }}>Comming Up</Text>
+
+                  {
+                    this.state.todos.map((dt, i) => {
+                      return(
+                        <View key={i} style={{ backgroundColor: '#F5F5F5', borderRadius: 15, minHeight: 80, marginTop: 10, paddingVertical: 10, paddingHorizontal: 15, flexDirection: 'row', justifyContent: 'space-between' }}>
+                          <View style={{ justifyContent: 'space-evenly', width: '85%' }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'Montserrat-Bold', color: '#000000' }}>{ dt.title }</Text>
+                            {
+                              dt.description
+                              ? <Text style={{ fontSize: 14, marginBottom: 10, color: '#5c5c5c', fontFamily: 'Montserrat-Medium' }}>{ dt.description }</Text>
+                              : <View></View>                            
+                            }          
+                            <Text style={{ color: '#9c9c9c', fontSize: 12, fontFamily: 'Montserrat-Medium', color: '#21277B' }}>{ this.dateToText(dt.reminderDate) }</Text>
+                          </View>
+                          <View style={{ justifyContent: 'flex-end' }}>
+                            <TouchableOpacity 
+                              onPress={() => { this.deleteTodo(dt._id) }}
+                              style={{ padding: 15, marginLeft: -10 }}>
+                              <Icon name="trash" size={20} color="#FC210D" />
+                            </TouchableOpacity>
+                          </View>
                         </View>
-                      </View>
-                    )
-                  })
-                }
+                      )
+                    })
+                  }
 
-              </View>
-
-              <View style={{ backgroundColor: 'white', borderTopLeftRadius: 30, borderTopRightRadius: 30, width: Dimensions.get('screen').width, marginTop: -30, zIndex: 20, padding: 30, minHeight: 600 }}>
-
-                <Text style={{ color: 'black', fontSize: 18, fontFamily: 'Montserrat-Bold', marginHorizontal: 10 }}>Comming Up</Text>
-
-                {
-                  this.state.todos.map((dt, i) => {
-                    return(
-                      <View key={i} style={{ backgroundColor: '#F5F5F5', borderRadius: 15, minHeight: 80, marginTop: 10, paddingVertical: 10, paddingHorizontal: 15, flexDirection: 'row' }}>
-                        <View style={{ justifyContent: 'space-evenly', width: '90%' }}>
-                          <Text style={{ fontSize: 16, fontFamily: 'Montserrat-Bold', color: '#000000' }}>{ dt.title }</Text>
-                          {
-                            dt.description
-                            ? <Text style={{ fontSize: 14, marginBottom: 10, color: '#5c5c5c', fontFamily: 'Montserrat-Medium' }}>{ dt.description }</Text>
-                            : <View></View>                            
-                          }          
-                          <Text style={{ color: '#9c9c9c', fontSize: 12, fontFamily: 'Montserrat-Medium', color: '#21277B' }}>{ this.dateToText(dt.reminderDate) }</Text>
-                        </View>
-                        <View style={{ justifyContent: 'flex-start' }}>
-                          <TouchableOpacity 
-                            onPress={() => { this.deleteTodo(dt._id) }}
-                            style={{ height: 30, width: 30, backgroundColor: 'red', borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: 'white', fontSize: 18, fontFamily: 'Montserrat-Bold' }}>X</Text>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    )
-                  })
-                }
-
+                  </View>
               </View>
 
             </ScrollView>            
