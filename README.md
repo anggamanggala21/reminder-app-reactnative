@@ -3,10 +3,10 @@ Mobile application that serves to help remind something. Generating using React 
 
 ### Installing
 ```
-npm install
-npm start
-npm run android
-npm run ios
+yarn add
+yarn start
+yarn run android
+yarn run ios
 ```
 
 ## Authors
