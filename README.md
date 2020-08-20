@@ -1,4 +1,4 @@
-# ranstr
+# Reminder App React Native
 Mobile application that serves to help remind something. Generating using React Native
 
 ### Installing
