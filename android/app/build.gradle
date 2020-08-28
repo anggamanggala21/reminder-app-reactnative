@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.igamdev.reminder"
+        applicationId "com.igamdev.reminderplus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

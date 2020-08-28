@@ -6,11 +6,11 @@ import {
   View,
   Text,
   StatusBar,
-  TouchableOpacity,
-  FlatList,
+  TouchableOpacity,  
   Dimensions,
   TextInput,
-  Alert
+  Alert,
+  Image
 } from 'react-native';
 
 import {
@@ -129,7 +129,16 @@ class App extends Component {
     })
   }
 
-  deleteTodo(id) {
+  deleteTodo(id, withoutAlert = false) {
+
+    if (withoutAlert == true) {
+      if (!id) return
+      deleteTodoById(id).then((res) => {
+        this.cancleNotif(id)
+        this.selectTodo()
+      })
+      return;
+    }
 
     Alert.alert(
       "Warning",
@@ -222,7 +231,13 @@ class App extends Component {
         <StatusBar backgroundColor="#21277B" barStyle="light-content" />
         <SafeAreaView style={{ backgroundColor: 'white', minHeight: Dimensions.get('screen').height }}>
           <View style={{ backgroundColor: '#21277B', height: 125, width: Dimensions.get('screen').width, padding: 30, justifyContent: 'center' }}>
-              <Text style={{ color: 'white', fontSize: 24, fontFamily: 'Montserrat-Bold', marginTop: -20 }}>REMINDER APP</Text>              
+              {/* <Text style={{ color: 'white', fontSize: 24, fontFamily: 'Montserrat-Bold', marginTop: -20 }}>REMINDER PLUS</Text>               */}
+              <View>
+                <Image 
+                  style={{ resizeMode: 'contain', width: '70%', marginBottom: 30 }}
+                  source={require('./src/assets/images/ReminderPlusTitle.png')}
+                />
+              </View>
           </View>
           
           <View style={styles.containerScrollView}>
@@ -254,9 +269,9 @@ class App extends Component {
                           </View>
                           <View style={{ justifyContent: 'flex-end' }}>
                             <TouchableOpacity 
-                              onPress={() => { this.deleteTodo(dt._id) }}
+                              onPress={() => { this.deleteTodo(dt._id, true) }}
                               style={{ padding: 15, marginLeft: -10 }}>
-                              <Icon name="trash" size={20} color="#FC210D" />
+                              <Icon name="check-circle" size={25} color="#0CCDA3" />
                             </TouchableOpacity>
                           </View>
                         </View>
@@ -306,7 +321,7 @@ class App extends Component {
             <TouchableOpacity 
               onPress={() => { this.toggleModalCreate() }}
               style={{ height: 60, width: 60, backgroundColor: '#21277B', marginBottom: 20, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ color: 'white', fontSize: 24, fontFamily: 'Montserrat-Bold' }}>+</Text>
+                <Icon name="plus" size={25} color="#ffffff" />
             </TouchableOpacity>
           </View>
 
@@ -320,8 +335,8 @@ class App extends Component {
                 useNativeDriver>
                   <TouchableOpacity 
                     onPress={() => { this.toggleModalCreate() }}
-                    style={{ height: 60, width: 60, backgroundColor: 'red', marginBottom: 20, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ color: 'white', fontSize: 24, fontFamily: 'Montserrat-Bold' }}>X</Text>
+                    style={{ height: 60, width: 60, backgroundColor: 'red', marginBottom: 20, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>                    
+                    <Icon name="times" size={30} color="#ffffff" />
                   </TouchableOpacity>
                 </Animatable.View>
 
@@ -358,7 +373,7 @@ class App extends Component {
                             paddingHorizontal: 20, 
                             marginBottom: 10, 
                             height: 45, 
-                            width: '70%',
+                            width: '65%',
                             borderTopRightRadius: 0,
                             borderBottomRightRadius: 0,
                             textAlignVertical: 'center', 
@@ -367,7 +382,7 @@ class App extends Component {
                         </Text>
                         <TouchableOpacity 
                           onPress={() => { this.setState({ showDate: true, showTime: false }); }}
-                          style={{ backgroundColor: '#21277B', borderRadius: 50, height: 45, width: '30%', justifyContent: 'center', alignItems: 'center', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}>
+                          style={{ backgroundColor: '#21277B', borderRadius: 50, height: 45, width: '35%', justifyContent: 'center', alignItems: 'center', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}>
                           <Text style={{ color: 'white', fontFamily: 'Montserrat-Medium' }}>Select Date</Text>
                         </TouchableOpacity>
                       </View>

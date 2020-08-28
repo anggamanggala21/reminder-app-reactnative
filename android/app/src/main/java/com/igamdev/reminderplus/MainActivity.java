@@ -1,4 +1,4 @@
-package com.igamdev.reminder;
+package com.igamdev.reminderplus;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "Reminder";
+    return "ReminderPlus";
   }
 }
